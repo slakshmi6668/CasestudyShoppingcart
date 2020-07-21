@@ -1,39 +1,57 @@
 package org.dxc.shopping;
-import java.util.Scanner;
-import org.dxc.shopping.exception.ProductException;
-import org.dxc.shopping.model.Product;
-import org.dxc.shopping.service.CartOperationService;
-import org.dxc.shopping.service.CartOperationServiceImpl;
 
+import java.util.Scanner;
+import org.dxc.shopping.service.*;
+
+import org.dxc.shopping.model.Product;
 
 public class ShoppingCart 
 {
-    public static void main( String[] args )throws ProductException{
-    	Product p1=new Product("Keyboard",400,2);
-		Product p2=new Product("Pendrive",300,2);
-		Product p3=new Product("Camera",3000,1);
-		// Upcasting or Dynamic Method Dispatch
-		CartOperationService cartService=new CartOperationServiceImpl(10); // loosly couplying
-	
-		cartService.removeFromCart(p3);
-		
-		cartService.addToCart(p1);//return 880.0
-		cartService.addToCart(p2); //return 660.0
-		cartService.addToCart(p3); //return 3300.0
-		System.out.println(cartService.getInvoiceAmount());// return 4840.0
-		
-		cartService.removeFromCart(p1);
-		System.out.println(cartService.getInvoiceAmount());// return 3960.0
-		System.out.println(cartService); // print Pendrive Camera
-		
-		int size=cartService.getProductContainerSize();
-		
-		System.out.println(size);
-		
-		
-
-	}
-
-}
-
+    public static void main( String[] args ) throws ProductException{
     	
+    	Scanner s=new Scanner(System.in);
+    	System.out.println("Enter Product Name");  	
+    	System.out.println("Enter Product Price");  	
+    	System.out.println("Enter Product Quantity");
+    	Product product=new Product(s.nextLine(),Integer.parseInt(s.nextLine()),Integer.parseInt(s.nextLine()));
+    	CartOperationService cartService=new CartOperationServiceImpl(10.2f); 
+    	cartService.removeFromCart(product);
+    	System.out.println("Enter number of products");
+    	int no=Integer.parseInt(s.nextLine());
+    	
+    	
+    	
+    	for(int i=0;i<no;i++) {
+    	System.out.println("Enter Product Name");  	
+    	System.out.println("Enter Product Price");  	
+    	System.out.println("Enter Product Quantity");
+    	
+    	Product p=new Product(s.nextLine(),Integer.parseInt(s.nextLine()),Integer.parseInt(s.nextLine()));
+    	
+    	cartService.addToCart(p);
+    	
+    	}
+    	System.out.println(cartService.getInvoiceAmount());
+    	
+    	System.out.println("Remove Product? yes or no");
+    	
+    	
+    	if(s.nextLine().equalsIgnoreCase("yes")) {
+    		
+    		System.out.println("Enter Product Name");  	
+        	System.out.println("Enter Product Price");  	
+        	System.out.println("Enter Product Quantity");
+    		Product p=new Product(s.nextLine(),Integer.parseInt(s.nextLine()),Integer.parseInt(s.nextLine()));
+    		cartService.removeFromCart(p);
+    		
+    	}
+    	
+    	
+    	System.out.println(cartService); 
+		
+
+        
+    }
+
+	
+}
